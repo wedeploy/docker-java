@@ -1,6 +1,7 @@
 package com.github.dockerjava.api.command;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.CheckForNull;
 
@@ -97,6 +98,9 @@ public class InspectContainerResponse {
 
     @JsonProperty("VolumesRW")
     private VolumesRW volumesRW;
+
+    @JsonProperty("Node")
+    private Node node;
 
     @JsonProperty("Mounts")
     private List<Mount> mounts;
@@ -202,6 +206,10 @@ public class InspectContainerResponse {
 
     public List<String> getExecIds() {
         return execIds;
+    }
+
+    public Node getNode() {
+        return node;
     }
 
     @Override
@@ -531,6 +539,64 @@ public class InspectContainerResponse {
         @Override
         public int hashCode() {
             return HashCodeBuilder.reflectionHashCode(this);
+        }
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public class Node {
+
+        @JsonProperty("ID")
+        private String id;
+
+        @JsonProperty("IP")
+        private String ip;
+
+        @JsonProperty("Addr")
+        private String addr;
+
+        @JsonProperty("Name")
+        private String name;
+
+        @JsonProperty("Cpus")
+        private Integer cpus;
+
+        @JsonProperty("Memory")
+        private Long memory;
+
+        @JsonProperty("Labels")
+        private Map<String, String> labels;
+
+        public String getId() {
+            return id;
+        }
+
+        public String getIp() {
+            return ip;
+        }
+
+        public String getAddr() {
+            return addr;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Integer getCpus() {
+            return cpus;
+        }
+
+        public Long getMemory() {
+            return memory;
+        }
+
+        public Map<String, String> getLabels() {
+            return labels;
+        }
+
+        @Override
+        public String toString() {
+            return ToStringBuilder.reflectionToString(this);
         }
     }
 }

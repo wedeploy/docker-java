@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -121,6 +122,16 @@ public class Network {
             return config;
         }
 
+        public Ipam withConfig(List<Config> ipamConfigs) {
+            config = ipamConfigs;
+            return this;
+        }
+
+        public Ipam withConfig(Config... ipamConfigs) {
+            config = Arrays.asList(ipamConfigs);
+            return this;
+        }
+
         @Override
         public String toString() {
             return ToStringBuilder.reflectionToString(this);
@@ -160,6 +171,20 @@ public class Network {
 
             public void setGateway(String gateway) {
                 this.gateway = gateway;
+
+            public Config withSubnet(String subnet) {
+                this.subnet = subnet;
+                return this;
+            }
+
+            public Config withIpRange(String ipRange) {
+                this.ipRange = ipRange;
+                return this;
+            }
+
+            public Config withGateway(String gateway) {
+                this.gateway = gateway;
+                return this;
             }
         }
     }

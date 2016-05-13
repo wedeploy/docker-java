@@ -1,13 +1,12 @@
 package com.github.dockerjava.api.command;
 
-import java.util.Map;
-
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import com.github.dockerjava.api.model.Network;
 import com.github.dockerjava.api.model.Network.Ipam;
 import com.github.dockerjava.core.RemoteApiVersion;
+
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+import java.util.Map;
 
 /**
  * Create a network.
@@ -45,6 +44,9 @@ public interface CreateNetworkCmd extends SyncDockerCmd<CreateNetworkResponse> {
 
     /** Ipam config, such es subnet, gateway and ip range of the network */
     CreateNetworkCmd withIpam(Ipam ipam);
+
+    /** Optional custom IP scheme for the network. */
+    CreateNetworkCmd withIpamConfig(Ipam.Config config);
 
     /** Driver specific options */
     CreateNetworkCmd withOptions(Map<String, String> options);

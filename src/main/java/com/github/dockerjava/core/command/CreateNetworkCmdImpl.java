@@ -1,14 +1,14 @@
 package com.github.dockerjava.core.command;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.dockerjava.api.command.CreateNetworkCmd;
 import com.github.dockerjava.api.command.CreateNetworkResponse;
 import com.github.dockerjava.api.command.DockerCmdSyncExec;
 import com.github.dockerjava.api.model.Network;
 import com.github.dockerjava.api.model.Network.Ipam;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CreateNetworkCmdImpl extends AbstrDockerCmd<CreateNetworkCmd, CreateNetworkResponse>
         implements CreateNetworkCmd {
@@ -84,6 +84,15 @@ public class CreateNetworkCmdImpl extends AbstrDockerCmd<CreateNetworkCmd, Creat
         this.driver = driver;
         return this;
     }
+
+    public CreateNetworkCmd withIpamConfig(Ipam.Config config) {
+        if (this.ipam == null) {
+            this.ipam = new Ipam();
+        }
+        this.ipam.getConfig().add(config);
+        return this;
+    }
+
 
     @Override
     public CreateNetworkCmd withIpam(Ipam ipam) {

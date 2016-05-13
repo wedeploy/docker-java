@@ -171,6 +171,7 @@ public class Network {
 
             public void setGateway(String gateway) {
                 this.gateway = gateway;
+            }
 
             public Config withSubnet(String subnet) {
                 this.subnet = subnet;

@@ -13,7 +13,7 @@
  */
 
 group 'com.wedeploy'
-version '20160913'
+version '20160913-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'maven-publish'

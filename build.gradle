@@ -1,0 +1,114 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
+group 'com.wedeploy'
+version '20160913'
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+repositories {
+    mavenCentral()
+}
+
+project.ext {
+    jersey_version = "2.23.1"
+    jackson_jaxrs_version = "2.6.4"
+    httpclient_version = "4.5"
+    commons_compress_version = "1.12"
+    commons_codec_version = "1.10"
+    commons_io_version = "2.5"
+    commons_lang_version = "2.6"
+    slf4j_api_version = "1.7.21"
+
+    bouncycastle_version = "1.54"
+    junixsocket_version = "2.0.4"
+    guava_version = "19.0"
+
+    logback_version = "1.1.7"
+    testng_version = "6.9.10"
+    netty_version = "4.1.3.Final"
+    hamcrest_library_version = "1.3"
+    hamcrest_jpa_matchers = "1.8"
+    lambdaj_version = "2.3.3"
+    mockito_version = "1.10.19"
+}
+
+dependencies {
+    compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:${jackson_jaxrs_version}"
+    compile "org.glassfish.jersey.connectors:jersey-apache-connector:${jersey_version}"
+    compile "org.apache.httpcomponents:httpcore:4.4.5"
+    compile "org.apache.httpcomponents:httpclient:${httpclient_version}"
+    compile "org.glassfish.jersey.core:jersey-client:${jersey_version}"
+    compile "com.kohlschutter.junixsocket:junixsocket-common:${junixsocket_version}"
+    compile "com.kohlschutter.junixsocket:junixsocket-native-common:${junixsocket_version}"
+    compile "org.apache.commons:commons-compress:${commons_compress_version}"
+    compile "commons-codec:commons-codec:${commons_codec_version}"
+    compile "commons-lang:commons-lang:${commons_lang_version}"
+    compile "commons-io:commons-io:${commons_io_version}"
+    compile "org.slf4j:slf4j-api:${slf4j_api_version}"
+    compile "org.slf4j:jcl-over-slf4j:${slf4j_api_version}"
+    compile "com.google.guava:guava:${guava_version}"
+    compile "org.bouncycastle:bcpkix-jdk15on:${bouncycastle_version}"
+
+    testCompile "ch.qos.logback:logback-core:${logback_version}"
+    testCompile "ch.qos.logback:logback-classic:${logback_version}"
+    testCompile "org.testng:testng:${testng_version}"
+    testCompile "org.hamcrest:hamcrest-library:${hamcrest_library_version}"
+    testCompile "com.googlecode.lambdaj:lambdaj:${lambdaj_version}"
+    testCompile "org.testinfected.hamcrest-matchers:jpa-matchers:${hamcrest_jpa_matchers}"
+    testCompile "org.mockito:mockito-core:${mockito_version}"
+
+    compile "com.google.code.findbugs:annotations:3.0.1"
+    compile "io.netty:netty-codec-http:${netty_version}"
+    compile "io.netty:netty-handler:${netty_version}"
+    compile "io.netty:netty-handler-proxy:${netty_version}"
+    compile "io.netty:netty-transport-native-epoll:${netty_version}"
+
+    testCompile "junit:junit:4.12"
+}
+
+// maven
+
+task sourceJar(type: Jar) {
+    classifier "sources"
+    from sourceSets.main.allJava
+}
+
+publishing {
+    publications {
+        jar(MavenPublication) {
+            from components.java
+            artifact sourceJar
+        }
+    }
+    repositories {
+        maven {
+            url wedeployRepo
+            credentials {
+                username wedeployRepoUsername
+                password wedeployRepoPassword
+            }
+        }
+    }
+}
+
+task install(dependsOn: publishToMavenLocal) {
+    group = 'Publishing'
+    description = 'Installs artifacts to local Maven repository'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.4.1'
+}

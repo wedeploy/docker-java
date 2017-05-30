@@ -13,7 +13,7 @@
  */
 
 group 'com.wedeploy'
-version '20170126'
+version '20170530'
 
 apply plugin: 'java'
 apply plugin: 'maven-publish'

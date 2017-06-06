@@ -24,3 +24,8 @@ target
 #Ignore Test Output
 test-output
 /.checkstyle
+
+
+build
+.gradle
+.hub-sync

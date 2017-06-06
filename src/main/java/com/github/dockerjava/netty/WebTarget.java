@@ -1,10 +1,6 @@
 package com.github.dockerjava.netty;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
-import java.nio.charset.UnsupportedCharsetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +9,6 @@ import java.util.Set;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableSet;
-import io.netty.handler.codec.http.HttpConstants;
 import org.apache.commons.lang.StringUtils;
 
 import com.google.common.collect.ImmutableList;
@@ -71,12 +66,12 @@ public class WebTarget {
 
         List<String> params = new ArrayList<>();
         for (Map.Entry<String, String> entry : queryParams.entrySet()) {
-            params.add(entry.getKey() + "=" + encodeComponent(entry.getValue(), HttpConstants.DEFAULT_CHARSET));
+            params.add(entry.getKey() + "=" + entry.getValue());
         }
 
         for (Map.Entry<String, Set<String>> entry : queryParamsSet.entrySet()) {
             for (String entryValueValue : entry.getValue()) {
-                params.add(entry.getKey() + "=" + encodeComponent(entryValueValue, HttpConstants.DEFAULT_CHARSET));
+                params.add(entry.getKey() + "=" + entryValueValue);
             }
         }
 
@@ -85,18 +80,6 @@ public class WebTarget {
         }
 
         return new InvocationBuilder(channelProvider, resource);
-    }
-
-    /**
-     * @see io.netty.handler.codec.http.QueryStringEncoder
-     */
-    private static String encodeComponent(String s, Charset charset) {
-        // TODO: Optimize me.
-        try {
-            return URLEncoder.encode(s, charset.name()).replace("+", "%20");
-        } catch (UnsupportedEncodingException ignored) {
-            throw new UnsupportedCharsetException(charset.name());
-        }
     }
 
     public WebTarget resolveTemplate(String name, Object value) {
